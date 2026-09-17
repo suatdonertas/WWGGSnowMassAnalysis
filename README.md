@@ -33,8 +33,3 @@ underlying skill (running structured simulations across many scenarios, then
 statistically summarizing what each would mean) shows up anywhere decisions need to be
 made under uncertainty about a future system that doesn't exist yet.
 
-## Context
-
-Originally developed on my prior GitHub account during my PhD (2018–2023); preserved
-here via fork after losing access to that account. Part of the broader U.S. Snowmass
-Community Planning Process.
