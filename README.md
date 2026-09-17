@@ -1,38 +1,40 @@
-# WWGGSnowMassAnalysis
+# WWGGSnowMassAnalysis — Future Collider Sensitivity Study
 
-Repository for the HH->WWGG Snowmass analysis. 
+Analysis code for a Snowmass study — the multi-year U.S. particle physics community
+process that sets priorities for future collider experiments — projecting how sensitive
+a future higher-luminosity or higher-energy collider would be to the HH → WWγγ
+di-Higgs channel.
 
-The analysis is being performed with [bamboo framework](https://bamboo-hep.readthedocs.io/en/latest/).
+## The problem, in plain terms
 
-`bambooRun -m CleanMerged.py:SnowmassExample YML/tautauGG_for_latex_table.yml -o OUTPUT_NAME` 
+Rather than analyzing data that already exists, this work asks a forward-looking
+question: *if we build a bigger or longer-running collider, how much better would our
+ability to detect this rare process actually get?* This requires simulating expected
+signal and background yields under different future-collider scenarios and projecting
+statistical sensitivity — essentially a large-scale "what-if" analysis used to justify
+and shape real, multi-billion-dollar scientific infrastructure decisions.
 
-To test, one can use `--MaxFiles=1` to run with 1 root file.
+## Technical approach
 
-To submit to slurm, only add `--distributed=driver`
+- Builds on the classification and significance-estimation pipeline from
+  [`DNN_HHWWGG`](https://github.com/sutipati/DNN_HHWWGG), applied to projected future
+  datasets rather than existing collision data
+- Projects statistical sensitivity under multiple future-collider luminosity/energy
+  assumptions, requiring careful handling of scaled and reweighted simulated samples
+- Same distributed batch-computing approach (Slurm-based HPC processing) as the parent
+  analysis, applied at the scale needed for community-wide projection studies
 
-`bambooRun --distributed=driver -m CleanMerged.py:SnowmassExample YML/tautauGG_for_latex_table.yml -o OUTPUT_NAME` 
+## Why this matters beyond physics
 
-If some jobs fail, resubmit with: 
+This is fundamentally a **long-horizon scenario-planning and sensitivity-modeling**
+exercise — quantifying the expected value of a future investment before it's made,
+under multiple assumptions about how that investment might play out. The same
+underlying skill (running structured simulations across many scenarios, then
+statistically summarizing what each would mean) shows up anywhere decisions need to be
+made under uncertainty about a future system that doesn't exist yet.
 
-`sbatch --array=JOB_NUMBER --export=ALL --licenses=cms_storage:3 path_to_the_output_folder/batch/slurmSubmission.sh`
+## Context
 
-and after those get completed:
-
-`bambooRun --distributed=finalize -m CleanMerged.py:SnowmassExample YML/tautauGG_for_latex_table.yml -o OUTPUT_NAME `
-
-A tiny problem that we experienced is that when you want to read files from eos spaces or some other storage, proxy transfer was not happening properly. To avoid the `Could not open file` error, do:
-
-```
-cp $X509_USER_PROXY ~/.x509_proxy
-export X509_USER_PROXY=~/.x509_proxy
-```
-So that the generated proxy can be transferred to the machines where your jobs are submitted to. 
-
-## Options 
-
-`--mvaSkim` to skim and make a TTree with skimmed variables.
-
-`--mvaEval` to import a DNN model in bamboo and evaluate on samples.
-
-`--onlypost` if you already ran and have your outputs but willing to make changes to plots or YML details
-
+Originally developed on my prior GitHub account during my PhD (2018–2023); preserved
+here via fork after losing access to that account. Part of the broader U.S. Snowmass
+Community Planning Process.
